@@ -1,5 +1,7 @@
 package draw.core.model;
 
 public interface IDisplayable {
-    boolean commit(Canvus canvus, Coordinate coordinate);
+    void display();
+    boolean checkCordinateValidity(Coordinate coordinate);
+    Point getPoint(Coordinate coordinate);
 }

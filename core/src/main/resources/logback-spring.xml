@@ -1,6 +1,6 @@
 <configuration>
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
-    <logger name="academy.learnprogramming" level="DEBUG"/>
+    <logger name="draw.core" level="DEBUG"/>
     <logger name="org.springframework.core" level="DEBUG"/>
 
 </configuration>

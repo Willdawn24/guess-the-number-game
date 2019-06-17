@@ -1,8 +1,5 @@
 package draw.core.config;
 
-import draw.core.GuessCount;
-import draw.core.MaxNumber;
-import draw.core.MinNumber;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -25,19 +22,16 @@ public class GameConfig {
 
     //-----bean methods
     @Bean
-    @MaxNumber
     public int maxNumber1(){
         return maxNumber;
     }
 
     @Bean
-    @GuessCount
     public int guessCount1(){
         return  guessCount;
     }
 
     @Bean
-    @MinNumber
     public int minNumber(){
         return minNumber;
     }

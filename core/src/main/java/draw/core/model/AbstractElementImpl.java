@@ -1,12 +1,12 @@
 package draw.core.model;
 
 
-import java.util.Collection;
+import draw.core.IDraw;
 
 /**
  *
  */
-public abstract class AbstractElementImpl implements IAbstractElement,  IDisplayable{
+public abstract class AbstractElementImpl implements IAbstractElement, ICommitable {
 
 //    public AbstractElementImpl() throws IllegalArgumentException {
 //        if(!checkConstructorArgs()){
@@ -17,5 +17,5 @@ public abstract class AbstractElementImpl implements IAbstractElement,  IDisplay
     protected abstract boolean checkConstructorArgs();
 
     @Override
-    public abstract boolean commit(Canvus canvus, Coordinate coordinate) throws IllegalArgumentException;
+    public abstract boolean commit(IDisplayable displayable, Coordinate coordinate) throws IllegalArgumentException;
 }

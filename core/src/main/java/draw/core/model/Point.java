@@ -1,8 +1,9 @@
 package draw.core.model;
 
-import java.util.*;
+import lombok.extern.slf4j.Slf4j;
 
-public class Point extends AbstractElementImpl implements IDisplayable {
+@Slf4j
+public class Point extends AbstractElementImpl implements ICommitable {
     private char character = ' ';
 
     public Point() throws IllegalArgumentException{
@@ -23,9 +24,17 @@ public class Point extends AbstractElementImpl implements IDisplayable {
     }
 
     @Override
-    public boolean commit(Canvus canvus, Coordinate coordinate) throws IllegalArgumentException{
-        boolean result = canvus.checkCordinateValidity(coordinate);
-        canvus.getPoint(coordinate).setCharacter(character);
+    public String toString() {
+        return "Point{" +
+                "character=" + character +
+                '}';
+    }
+
+    @Override
+    public boolean commit(IDisplayable displayable, Coordinate coordinate) throws IllegalArgumentException{
+        log.debug("Create Point {} at coordiate {}", this, coordinate);
+        boolean result = displayable.checkCordinateValidity(coordinate);
+        displayable.getPoint(coordinate).setCharacter(character);
         return result;
     }
 

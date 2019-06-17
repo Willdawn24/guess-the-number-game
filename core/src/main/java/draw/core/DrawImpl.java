@@ -1,50 +1,68 @@
 package draw.core;
 
-import draw.core.model.Canvus;
+import draw.core.model.DisplayableCanvus;
 import draw.core.model.Coordinate;
 import draw.core.model.Line;
 import draw.core.model.Rectangle;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
+@Component
+@Slf4j
 public class DrawImpl implements IDraw {
-    Canvus canvus;
+    DisplayableCanvus displayableCanvus;
     @Override
-    public void getCanvus(int width, int height) {
-        canvus = new Canvus(width, height);
-    }
-
-    @Override
-    public boolean getLine(int startX, int startY, int endX, int endY) throws IllegalArgumentException {
-        Line line;
+    public boolean getDisplayable(int width, int height) {
         boolean result = true;
-        if (startX==endX && startY == endY){
-            result = false;
-        }else{
-            if (startX == endX)
-                line = new Line(endY-startY,true);
-            else
-                line = new Line(endX - startX, false);
-            Coordinate drawPoint = new Coordinate(startX, startY);
-            line.commit(canvus, drawPoint);
+        try{
+            displayableCanvus = new DisplayableCanvus(width, height);
+        }catch (IllegalArgumentException e){
+            log.error("Failed to create canvus with width {} and height {}", width, height);
         }
         return result;
     }
 
     @Override
-    public void getRectangle(int startX, int startY, int endX, int endY) throws IllegalArgumentException  {
+    public boolean getLine(int startX, int startY, int endX, int endY) {
+        Line line;
+        boolean result = true;
+        try{
+            if (startX == endX)
+                line = new Line(1+Math.abs(endY-startY),true);
+            else
+                line = new Line(1+Math.abs(endX - startX), false);
+            Coordinate drawPoint = new Coordinate(startX, startY);
+            line.commit(displayableCanvus, drawPoint);
+        }catch(IllegalArgumentException e){
+            result = false;
+            log.error("Failed to create line from {},{} to {},{}", startX, startY, endX, endY);
+        }
+        return result;
+    }
+
+    @Override
+    public boolean getRectangle(int startX, int startY, int endX, int endY)  {
         Rectangle rectangle;
-        rectangle = new Rectangle(endX-startX, endY - endX);
-        Coordinate drawPoint = new Coordinate(startX, startY);
-        rectangle.commit(canvus, drawPoint);
+        boolean result = true;
+        try{
+            rectangle = new Rectangle(1+Math.abs(endX-startX), 1+Math.abs(endY - startY));
+            Coordinate drawPoint = new Coordinate(startX, startY);
+            rectangle.commit(displayableCanvus, drawPoint);
+        }catch(IllegalArgumentException e){
+            result = false;
+            log.error("Failed to create rectangle at {} and {}", new Coordinate(startX, startY), new Coordinate(endX, endY));
+        }
+        return result;
     }
 
 
     @Override
     public void display() {
-        canvus.show();
+        displayableCanvus.display();
     }
 
     @Override
     public void reset() {
-        canvus = null;
+        displayableCanvus = null;
     }
 }
