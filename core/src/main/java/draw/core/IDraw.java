@@ -5,5 +5,6 @@ public interface IDraw {
     boolean getLine(int startX, int startY, int endX, int endY);
     boolean getRectangle(int startX, int startY, int endX, int endY) ;
     void display();
+    boolean fill(int x, int y, char c);
     void reset();
 }

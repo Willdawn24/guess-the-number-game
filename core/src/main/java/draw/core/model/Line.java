@@ -33,15 +33,17 @@ public class Line extends AbstractElementImpl{
 
     @Override
     public boolean commit(IDisplayable iDisplayable, Coordinate coordinate){
-        log.debug("displaying line {} at coordinate: {}", this, coordinate.toString());
+        log.debug("commit line {} at coordinate: {}", this, coordinate.toString());
         boolean result = true;
         int sign;
         sign = length>0 ?1:-1;
         Coordinate endCoordinate = coordinate.offset(length-1, vertical);
-        result = iDisplayable.checkCordinateValidity(coordinate)&& iDisplayable.checkCordinateValidity(endCoordinate);
+        result = iDisplayable.checkCoordinateValidity(coordinate)&& iDisplayable.checkCoordinateValidity(endCoordinate);
+        log.info("check coordinate {}", coordinate);
+        log.info("and check end cooordinate {}", endCoordinate);
         if(result)
             for(int i=0;i<Math.abs(length);i++){
-                iDisplayable.getPoint(coordinate.offset(i*sign, vertical)).setCharacter('X');
+                iDisplayable.commit(coordinate.offset(i*sign, vertical),'x');
             }
         return result;
 

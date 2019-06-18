@@ -2,6 +2,6 @@ package draw.core.model;
 
 public interface IDisplayable {
     void display();
-    boolean checkCordinateValidity(Coordinate coordinate);
-    Point getPoint(Coordinate coordinate);
+    boolean checkCoordinateValidity(Coordinate coordinate);
+    boolean commit(Coordinate coordinate, char c);
 }

@@ -27,17 +27,17 @@ public class Rectangle extends ShapeImpl{
         // lowerleft coordinate
         boolean result;
         Coordinate lowerRight = coordinate.offset(width-1, false).offset(height-1, true);
-        result = iDisplayable.checkCordinateValidity(coordinate) && iDisplayable.checkCordinateValidity(lowerRight);
+        result = iDisplayable.checkCoordinateValidity(coordinate) && iDisplayable.checkCoordinateValidity(lowerRight);
         log.debug("Display rectangle {} at: {} and {}", this, coordinate.toString(), lowerRight.toString());
         if (result){
             for (int i = 0;i<height;i++)
-                iDisplayable.getPoint(coordinate.offset(i,true)).setCharacter('X');
+                iDisplayable.commit(coordinate.offset(i,true),'x');
             for (int i = 0;i<height;i++)
-                iDisplayable.getPoint(coordinate.offset(width-1, false).offset(i, true)).setCharacter('X');
+                iDisplayable.commit(coordinate.offset(width-1, false).offset(i, true),'x');
             for (int i = 0;i<width;i++)
-                iDisplayable.getPoint(coordinate.offset(i,false)).setCharacter('X');
+                iDisplayable.commit(coordinate.offset(i,false),'x');
             for (int i = 0;i<width;i++)
-                iDisplayable.getPoint(coordinate.offset(height-1, true).offset(i, false)).setCharacter('X');
+                iDisplayable.commit(coordinate.offset(height-1, true).offset(i, false),'x');
         }
         return result;
     }

@@ -3,6 +3,9 @@ package draw.core.model;
 import draw.core.IDraw;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Slf4j
 public class DisplayableCanvus implements IShape, IDisplayable {
     private Coordinate upperLeft, lowerRight;
@@ -26,12 +29,15 @@ public class DisplayableCanvus implements IShape, IDisplayable {
     }
 
     // -------------public methods----------
-    public Point getPoint(Coordinate coordinate) throws RuntimeException{
-        Point result = null;
-        if (!isOutside(coordinate))
-            result = points[coordinate.getyCoordinate()][coordinate.getxCoordinate()];
-        else
-            throw new RuntimeException("Invalid Coordinate");
+    @Override
+    public boolean commit(Coordinate coordinate, char c) {
+        boolean result = true;
+        try{
+            getPoint(coordinate).setCharacter('x');
+        }catch(IndexOutOfBoundsException exception){
+            log.error("Commit failed to retrieve point {}", coordinate);
+            result = false;
+        }
         return result;
     }
 
@@ -44,7 +50,7 @@ public class DisplayableCanvus implements IShape, IDisplayable {
         }
     }
 
-    public boolean checkCordinateValidity(Coordinate coordinate){
+    public boolean checkCoordinateValidity(Coordinate coordinate){
         return isInside(coordinate);
     }
 
@@ -91,6 +97,15 @@ public class DisplayableCanvus implements IShape, IDisplayable {
     }
 
     // -------------private methods----------
+    private Point getPoint(Coordinate coordinate) throws IndexOutOfBoundsException{
+        Point result = null;
+        if (!isOutside(coordinate))
+            result = points[coordinate.getyCoordinate()][coordinate.getxCoordinate()];
+        else
+            throw new IndexOutOfBoundsException("Invalid Coordinate");
+        return result;
+    }
+
     private boolean commit() {
         int i;
         for (i = 0; i < height; i++)
@@ -113,24 +128,40 @@ public class DisplayableCanvus implements IShape, IDisplayable {
         }
     }
 
-    //    public boolean checkValidity(Coordinate[] coordinates){
-//        boolean result = true;
-//        for(Coordinate coordinate: coordinates){
-//            if(!checkValidity( coordinate)){
-//                result = false;
-//                break;
-//            }
-//        }
-//        return result;
-//    }
+    public void fill(Coordinate coordinate, char character) throws IndexOutOfBoundsException{
+        Set<Coordinate> set = new HashSet<Coordinate>();
+        fillHelper(set, coordinate,character);
+    }
 
-//    public boolean commit(Point point, Coordinate coordinate){
-//        boolean result = true;
-//        try{
-//            getPoint(coordinate).setCharacter(point.getCharacter());
-//        }catch(Exception exception){
-//            result = false;
-//        }
-//        return result;
-//    }
+    private void fillHelper(Set<Coordinate> set, Coordinate coordinate, char c){
+        set.add(coordinate);
+        if(isInside(coordinate)){
+            if(checkFill(getPoint(coordinate))){
+                getPoint(coordinate).setCharacter(c);
+                Coordinate left = coordinate.offset(-1, false);
+                Coordinate right = coordinate.offset(1, false);
+                Coordinate up= coordinate.offset(-1, true);
+                Coordinate down= coordinate.offset(1, true);
+
+                if (!set.contains(left)){
+                    fillHelper(set, left, c);
+                }
+                if(!set.contains(right)){
+                    fillHelper(set, up, c);
+                }
+                if (!set.contains(right)){
+                    fillHelper(set, right, c);
+                }
+                if(!set.contains(down)){
+                    fillHelper(set, down, c);
+                }
+            }
+        }
+    }
+
+    private boolean checkFill(Point point){
+        char currentChar = point.getCharacter();
+        return currentChar!='-'&& currentChar!='|'&&currentChar!='x';
+    }
+
 }

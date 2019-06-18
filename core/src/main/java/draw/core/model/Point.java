@@ -33,8 +33,8 @@ public class Point extends AbstractElementImpl implements ICommitable {
     @Override
     public boolean commit(IDisplayable displayable, Coordinate coordinate) throws IllegalArgumentException{
         log.debug("Create Point {} at coordiate {}", this, coordinate);
-        boolean result = displayable.checkCordinateValidity(coordinate);
-        displayable.getPoint(coordinate).setCharacter(character);
+        boolean result = displayable.checkCoordinateValidity(coordinate);
+        displayable.commit(coordinate,character);
         return result;
     }
 
