@@ -23,20 +23,31 @@ public class DisplayableCanvusTest {
     }
 
     @Test
-    public void invalidConstruct1Test(){
+    public void testConstructorWithZeroWidth(){
         Assertions.assertThrows(IllegalArgumentException.class, ()->{
            displayableCanvus = new DisplayableCanvus(0,10);
         });
     }
     @Test
-    public void invalidConstruct2Test(){
+    public void testConstructorWithZeroHeight(){
+        Assertions.assertThrows(IllegalArgumentException.class, ()->{
+            displayableCanvus = new DisplayableCanvus(10,0);
+        });
+    }
+    @Test
+    public void testConstructorWithNegativeHeight(){
         Assertions.assertThrows(IllegalArgumentException.class, ()->{
             displayableCanvus = new DisplayableCanvus(10,-10);
         });
     }
-
     @Test
-    public void commit() {
+    public void testConstructorWithPositiveArgs(){
+        Assertions.assertAll(()->{
+            displayableCanvus = new DisplayableCanvus(10,10);
+        });
+    }
+    @Test
+    public void testCommit() {
         Coordinate coordinate = new Coordinate(5,5);
         char old = displayableCanvus.getChar(coordinate);
         char c = 'A';
@@ -46,7 +57,7 @@ public class DisplayableCanvusTest {
     }
 
     @Test
-    public void checkCoordinateValidity() {
+    public void testCheckCoordinateValidity() {
         assertFalse(displayableCanvus.checkCoordinateValidity(cdntOnCorner));
         assertFalse(displayableCanvus.checkCoordinateValidity(cdntOnBoundary));
         assertFalse(displayableCanvus.checkCoordinateValidity(cdntOutside));
@@ -54,7 +65,7 @@ public class DisplayableCanvusTest {
     }
 
     @Test
-    public void isOnBoundary() {
+    public void testIsOnBoundary() {
         assertTrue(displayableCanvus.isOnBoundary(cdntOnBoundary));
         assertTrue(displayableCanvus.isOnBoundary(cdntOnCorner));
         assertFalse(displayableCanvus.isOnBoundary(cdntInside));
@@ -62,7 +73,7 @@ public class DisplayableCanvusTest {
     }
 
     @Test
-    public void isInside() {
+    public void testIsInside() {
         assertFalse(displayableCanvus.isInside(cdntOnBoundary));
         assertFalse(displayableCanvus.isInside(cdntOnCorner));
         assertTrue(displayableCanvus.isInside(cdntInside));
@@ -70,7 +81,7 @@ public class DisplayableCanvusTest {
     }
 
     @Test
-    public void isOnVerticalBoundary() {
+    public void testIsOnVerticalBoundary() {
         assertFalse(displayableCanvus.isOnVerticalBoundary(cdntOnBoundary));
         assertTrue(displayableCanvus.isOnVerticalBoundary(cdntOnCorner));
         assertFalse(displayableCanvus.isOnVerticalBoundary(cdntInside));
@@ -79,7 +90,7 @@ public class DisplayableCanvusTest {
     }
 
     @Test
-    public void isOnHorizontalBoundary() {
+    public void testIsOnHorizontalBoundary() {
         assertTrue(displayableCanvus.isOnHorizontalBoundary(cdntOnBoundary));
         assertTrue(displayableCanvus.isOnHorizontalBoundary(cdntOnCorner));
         assertFalse(displayableCanvus.isOnHorizontalBoundary(cdntInside));
@@ -89,15 +100,23 @@ public class DisplayableCanvusTest {
     }
 
     @Test
-    public void getWidthTest(){
+    public void testGetWidth(){
+
         assertEquals(12, displayableCanvus.getWidth());
     }
 
     @Test
-    public void getHeightTest(){
+    public void testGetHeight(){
+
         assertEquals(12, displayableCanvus.getHeight());
     }
 
+    @Test
+    public void testDisplay(){
+        Assertions.assertAll(()->{
+            displayableCanvus.display();
+        });
+    }
     @Test
     public void fill() {
         char c = 'M';
@@ -109,5 +128,11 @@ public class DisplayableCanvusTest {
                     assertEquals(c, displayableCanvus.getChar(new Coordinate(j,i)));
             }
         }
+    }
+    @Test
+    public void testToString(){
+        String string = displayableCanvus.toString();
+        assertTrue(string.contains("width"));
+        assertTrue(string.contains("height"));
     }
 }

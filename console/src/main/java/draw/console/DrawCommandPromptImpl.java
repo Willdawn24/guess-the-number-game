@@ -52,9 +52,11 @@ public class DrawCommandPromptImpl implements IDrawCommandPrompt {
                     break;
             }
         }catch (NumberFormatException e){
+            result = false;
             log.error("Invalid command argument");
         }catch(ArrayIndexOutOfBoundsException exception){
             log.error("Invalid command arguments length");
+            result = false;
         }
         return result;
     }

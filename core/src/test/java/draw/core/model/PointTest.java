@@ -1,11 +1,12 @@
 package draw.core.model;
 
+
+import draw.core.DrawImpl;
+import draw.core.IDraw;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeAll;
-
-import javax.annotation.PreDestroy;
+import org.junit.jupiter.api.Assertions;
 
 import static org.junit.Assert.*;
 
@@ -31,12 +32,12 @@ public class PointTest {
     }
 
     @Test
-    public void getCharacterTest() {
+    public void testGetCharacter() {
         assertTrue(point.getCharacter() == ' ');
     }
 
     @Test
-    public void checkConstructorArgsTest() {
+    public void testCheckConstructorArgs() {
         assertTrue(point.checkConstructorArgs());
     }
 
@@ -47,5 +48,12 @@ public class PointTest {
 
     @Test
     public void commit() {
+        Assertions.assertAll(()->{
+            DisplayableCanvus displayableCanvus = new DisplayableCanvus(4,4);
+            Point point = new Point();
+            Coordinate coordinate = new Coordinate(1,1);
+            point.commit(displayableCanvus, coordinate);
+            assertEquals(' ', displayableCanvus.getChar(coordinate));
+        });
     }
 }

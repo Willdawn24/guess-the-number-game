@@ -10,7 +10,7 @@ public class Rectangle extends ShapeImpl{
         this.height = height;
         this.width = width;
         if (!checkConstructorArgs())
-            throw new IllegalArgumentException("Invalid coordinates for Line");
+            throw new IllegalArgumentException("Invalid coordinates for Rectangle");
         log.info("create rectangle: "+this.toString());
     }
 

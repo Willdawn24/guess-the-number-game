@@ -17,6 +17,7 @@ public class DrawImpl implements IDraw {
         try{
             displayableCanvus = new DisplayableCanvus(width, height);
         }catch (IllegalArgumentException e){
+            result = false;
             log.error("Failed to create canvus with width {} and height {}. {}", width, height, e.getMessage());
         }
         return result;
@@ -27,6 +28,8 @@ public class DrawImpl implements IDraw {
         Line line;
         boolean result = true;
         try{
+            if (!(startX<=endX && startY<=endY))
+                throw new IllegalArgumentException("Invalid coordinates for Rectangle");
             if (startX == endX)
                 line = new Line(1+Math.abs(endY-startY),true);
             else if(startY == endY)
@@ -48,9 +51,12 @@ public class DrawImpl implements IDraw {
         Rectangle rectangle;
         boolean result = true;
         try{
+            if (!(startX<=endX && startY<=endY))
+                throw new IllegalArgumentException("Invalid coordinates for Rectangle");
             rectangle = new Rectangle(1+Math.abs(endX-startX), 1+Math.abs(endY - startY));
             Coordinate drawPoint = new Coordinate(startX, startY);
-            rectangle.commit(displayableCanvus, drawPoint);
+            if(!rectangle.commit(displayableCanvus, drawPoint))
+                result = false;
         }catch(IllegalArgumentException e){
             result = false;
             log.error("Failed to create rectangle at {} and {}. {}", new Coordinate(startX, startY), new Coordinate(endX, endY), e.getMessage());
@@ -77,10 +83,5 @@ public class DrawImpl implements IDraw {
     @Override
     public void display() {
         displayableCanvus.display();
-    }
-
-    @Override
-    public void reset() {
-        displayableCanvus = null;
     }
 }

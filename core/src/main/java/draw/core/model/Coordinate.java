@@ -37,13 +37,11 @@ public class Coordinate {
     }
 
     public Coordinate offset(int offset, boolean vertical){
-        Coordinate cdnt;
         if(vertical){
-            cdnt = new Coordinate(getxCoordinate(),getyCoordinate()+offset);
+            return new Coordinate(getxCoordinate(),getyCoordinate()+offset);
         }else{
-            cdnt = new Coordinate(getxCoordinate()+offset, getyCoordinate());
+            return new Coordinate(getxCoordinate()+offset, getyCoordinate());
         }
-        return cdnt;
     }
 
     @Override
