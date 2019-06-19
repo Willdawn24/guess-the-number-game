@@ -33,12 +33,24 @@ public class DisplayableCanvus implements IShape, IDisplayable {
     public boolean commit(Coordinate coordinate, char c) {
         boolean result = true;
         try{
-            getPoint(coordinate).setCharacter('x');
+            getPoint(coordinate).setCharacter(c);
         }catch(IndexOutOfBoundsException exception){
             log.error("Commit failed to retrieve point {}", coordinate);
             result = false;
         }
         return result;
+    }
+
+    public char getChar(Coordinate coordinate) {
+        return points[coordinate.getyCoordinate()][coordinate.getxCoordinate()].getCharacter();
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 
     public void display() {
@@ -88,6 +100,12 @@ public class DisplayableCanvus implements IShape, IDisplayable {
         return result;
     }
 
+
+    public void fill(Coordinate coordinate, char character) throws IndexOutOfBoundsException{
+        Set<Coordinate> set = new HashSet<Coordinate>();
+        fillHelper(set, coordinate,character);
+    }
+
     @Override
     public String toString() {
         return "DisplayableCanvus{" +
@@ -128,10 +146,6 @@ public class DisplayableCanvus implements IShape, IDisplayable {
         }
     }
 
-    public void fill(Coordinate coordinate, char character) throws IndexOutOfBoundsException{
-        Set<Coordinate> set = new HashSet<Coordinate>();
-        fillHelper(set, coordinate,character);
-    }
 
     private void fillHelper(Set<Coordinate> set, Coordinate coordinate, char c){
         set.add(coordinate);

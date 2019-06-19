@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class Rectangle extends ShapeImpl{
-    int width, height;
+    private int width, height;
 
     public Rectangle(int width, int height) throws IllegalArgumentException {
         this.height = height;
@@ -17,7 +17,7 @@ public class Rectangle extends ShapeImpl{
     @Override
     protected boolean checkConstructorArgs() {
         boolean result = true;
-        if(width==1 && height==1)
+        if(width<1 || height<1)
             result = false;
         return result;
     }

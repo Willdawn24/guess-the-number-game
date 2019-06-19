@@ -6,10 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 public class Point extends AbstractElementImpl implements ICommitable {
     private char character = ' ';
 
-    public Point() throws IllegalArgumentException{
-        super();
-    }
-
     public void setCharacter(char character) {
         this.character = character;
     }

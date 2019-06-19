@@ -18,7 +18,7 @@ public class Line extends AbstractElementImpl{
     @Override
     protected boolean checkConstructorArgs() {
         boolean result = true;
-        if(length==1)
+        if(length<=1 && length>=-1)
             result = false;
         return result;
     }

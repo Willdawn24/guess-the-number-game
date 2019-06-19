@@ -19,13 +19,13 @@ public class Coordinate {
         return yCoordinate;
     }
 
-    public boolean isVerticallyInline(Coordinate coordinate){
-        return !this.equals(coordinate) && getyCoordinate() == coordinate.getyCoordinate();
-    }
-
-    public boolean isHorizontallyInline(Coordinate coordinate){
-        return !this.equals(coordinate) && getxCoordinate() == coordinate.getxCoordinate();
-    }
+//    public boolean isVerticallyInline(Coordinate coordinate){
+//        return !this.equals(coordinate) && getyCoordinate() == coordinate.getyCoordinate();
+//    }
+//
+//    public boolean isHorizontallyInline(Coordinate coordinate){
+//        return !this.equals(coordinate) && getxCoordinate() == coordinate.getxCoordinate();
+//    }
 
     @Override
     public boolean equals(Object o) {
